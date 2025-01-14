@@ -252,6 +252,9 @@ curl http://localhost:8080/env
 #### 0. kind にロードする
 ```bash
 kind load docker-image webservice:v1 --name workshop-2025
+# kind でロードされたことを確認する
+# kind 2025 では --name オプションが必要です
+kubectl create deployment myapp --image=webservice:v1
 ```
 
 #### 1. ConfigMapの作成
@@ -291,7 +294,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: myapp:latest
+        image: webservice:latest
         ports:
         - containerPort: 8080
         envFrom:
