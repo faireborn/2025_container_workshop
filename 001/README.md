@@ -35,8 +35,9 @@ kubectl cluster-info
 #### 実行
 今、デプロイしたKubernetes cluster にnginx をデプロイします
 ```bash
-kubectl run nginx --image=nginx --replicas=3
-kubectl run --generator=deployment/apps.v1 は非推奨であり、将来のバージョンで削除されます。代わりに kubectl run --generator=run-pod/v1 または kubectl create を使用してください。
+# kubectl run nginx --image=nginx --replicas=3
+# kubectl run --generator=deployment/apps.v1 は非推奨であり、将来のバージョンで削除されます。代わりに kubectl run --generator=run-pod/v1 または kubectl create を使用してください。
+kubectl create deployment nginx --image=nginx --replicas=3
 deployment.apps/nginx created
 ```
 
