@@ -106,7 +106,7 @@ deployment.apps "nginx" deleted
 #他のリソースも削除されているので確認してみてください
 ```
 
-#### install yamls 
+#### install yamls
 nginx-deployment.yaml をデプロイします。
 ```
 apiVersion: apps/v1
@@ -161,6 +161,8 @@ import (
     "net/http"
     "os"
     "time"
+    "encoding/json"
+    "strings"
 )
 
 func main() {
