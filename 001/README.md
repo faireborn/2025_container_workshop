@@ -72,22 +72,23 @@ pod "nginx-6db489d4b7-lrgcd" deleted
 # これは各自で実行してください nginx 以降はそれぞれです
 ```
 削除したリソースを確認する
+Podを削除しても上位のリソースが存在しているのでその上位のリソースが維持し続けます。次にreplicaset を削除する。
 ```bash
-Podを削除しても上位のリソースが存在しているので残り続ける。次にreplicaset を削除する
-```
 kubectl get rs
 NAME                         DESIRED   CURRENT   READY   AGE
 nginx-6db489d4b7             3         3         3       29m
+```
 
 # 次はrs を削除する
+```bash
 kubectl delete rs/nginx-6db489d4b7
 replicaset.apps "nginx-6db489d4b7" deleted
 
 kubectl get rs
 NAME                         DESIRED   CURRENT   READY   AGE
 nginx-6db489d4b7             3         3         3       78s
-
-# 上位リソースが削除されたのでpod も削除されました
+```
+# 上位リソースが削除されたのでpod も削除されました 
 kubectl get pod
 NAME                               READY   STATUS    RESTARTS   AGE
 nginx-6db489d4b7-8cq4x             1/1     Running   0          74s
@@ -107,7 +108,7 @@ deployment.apps "nginx" deleted
 
 #### install yamls
 nginx-deployment.yaml をデプロイします。
-```
+```yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -132,18 +133,18 @@ spec:
 ```
 
 resourceの取得
-```
+```bash
 kubectl get pods,rs
 ```
 
 詳細の取得
-```
+```bash
 kubectl describe pod/<name>
 kubectl describe deployment <name>
 ```
 
 resourceの削除
-```
+```bash
 kubectl delete pods,rs
 ```
 
@@ -203,7 +204,7 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 
 ### Dockerfile
 ```dockerfile
-FROM golang:1.22-alpine AS builder
+FROM golang:1.23-alpine AS builder
 
 WORKDIR /app
 COPY main.go .
@@ -247,6 +248,11 @@ curl http://localhost:8080/env
 3. [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/)
 
 ### 手順詳細
+
+#### 0. kind にロードする
+```bash
+kind load docker-image webservice:v1 --name workshop-2025
+```
 
 #### 1. ConfigMapの作成
 まず、[アプリケーションの設定を管理するConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)を作成します。
