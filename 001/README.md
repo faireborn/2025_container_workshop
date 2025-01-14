@@ -44,14 +44,17 @@ deployment.apps/nginx created
 #### 確認
 今、デプロイしたものを確認します
 ```bash
+# install したものを確認します
 kubectl get deploy
 NAME              READY   UP-TO-DATE   AVAILABLE   AGE
 nginx             3/3     3            3           49s
 
+# replica set を確認します
 kubectl get rs
 NAME                         DESIRED   CURRENT   READY   AGE
 nginx-6db489d4b7             3         3         3       68s
 
+# pod を確認します
 kubectl get pod
 NAME                               READY   STATUS    RESTARTS   AGE
 nginx-6db489d4b7-2djdm             1/1     Running   0          5m44s
@@ -60,21 +63,16 @@ nginx-6db489d4b7-lrgcd             1/1     Running   0          5m44s
 ```
 
 #### 削除
-Pod を削除する
+Pod をそれぞれ削除します
 ```bash
 kubectl delete pod nginx-6db489d4b7-2djdm nginx-6db489d4b7-2vhs8 nginx-6db489d4b7-lrgcd
 pod "nginx-6db489d4b7-2djdm" deleted
 pod "nginx-6db489d4b7-2vhs8" deleted
 pod "nginx-6db489d4b7-lrgcd" deleted
+# これは各自で実行してください nginx 以降はそれぞれです
 ```
 削除したリソースを確認する
-```
-kubectl get pod
-NAME                               READY   STATUS    RESTARTS   AGE
-nginx-6db489d4b7-6sgnz             1/1     Running   0          16s
-nginx-6db489d4b7-nhfvh             1/1     Running   0          16s
-nginx-6db489d4b7-tl7m8             1/1     Running   0          16s
-```
+```bash
 Podを削除しても上位のリソースが存在しているので残り続ける。次にreplicaset を削除する
 ```
 kubectl get rs
