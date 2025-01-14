@@ -377,6 +377,8 @@ kubectl proxy &
 curl http://localhost:8001/api/v1/namespaces/default/services/myapp-service/proxy/
 ```
 
+4. 別のアクセス方法については、[Go開発者のための遊び場を用意する - KindとSkaffoldで始めるKubernetesの開発環境構築](https://syu-m-5151.hatenablog.com/entry/2024/06/21/135855) を参照してください。
+
 ## 実践課題3: Helmチャートの作成
 
 ### 目的
@@ -494,6 +496,8 @@ helm install myapp-release ./myapp
 helm list
 kubectl get all -l app=myapp
 ```
+
+
 
 ### 発展課題
 1. [複数環境向けの値ファイル](https://helm.sh/docs/chart_template_guide/values_files/)の作成
