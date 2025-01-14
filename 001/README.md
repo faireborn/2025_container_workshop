@@ -249,17 +249,11 @@ curl http://localhost:8080/env
 
 ### 手順詳細
 
-#### 0. kind にロードする
-```bash
-kind load docker-image webservice:v1 --name workshop-2025
-# kind でロードされたことを確認する
-# kind 2025 では --name オプションが必要です
-kubectl create deployment myapp --image=webservice:v1
-```
+それでは、順番に修正していきましょう。まず、各マニフェストファイルを作成し、その後適用していきます。
 
-#### 1. ConfigMapの作成
-まず、[アプリケーションの設定を管理するConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/)を作成します。
+1. まず、これらのマニフェストを別々のYAMLファイルとして保存します：
 
+`configmap.yaml`:
 ```yaml
 apiVersion: v1
 kind: ConfigMap
@@ -272,9 +266,7 @@ data:
   APP_ENV: "development"
 ```
 
-#### 2. Deploymentの作成
-[アプリケーションのDeployment](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment)を定義します。以下の要件を満たすように設定してください：
-
+`deployment.yaml`:
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -294,7 +286,7 @@ spec:
     spec:
       containers:
       - name: myapp
-        image: webservice:latest
+        image: webservice:v1  # バージョンを v1 に修正
         ports:
         - containerPort: 8080
         envFrom:
@@ -309,9 +301,7 @@ spec:
             memory: "256Mi"
 ```
 
-#### 3. Serviceの作成
-[アプリケーションへのアクセスを提供するService](https://kubernetes.io/docs/concepts/services-networking/service/#defining-a-service)を作成します：
-
+`service.yaml`:
 ```yaml
 apiVersion: v1
 kind: Service
@@ -327,6 +317,41 @@ spec:
     protocol: TCP
   selector:
     app: myapp
+```
+
+2. 以下の順序でコマンドを実行します：
+
+```bash
+# kindクラスターにイメージをロード
+kind load docker-image webservice:v1 --name workshop-2025
+
+# イメージがロードされたことを確認
+docker exec -it workshop-2025-control-plane crictl images | grep webservice
+
+# マニフェストの適用
+kubectl apply -f configmap.yaml
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+# デプロイメントの状態を確認
+kubectl get deployments
+kubectl get pods
+kubectl get services
+```
+
+
+
+
+デプロイ後、以下のコマンドで動作確認ができます：
+```bash
+# Podの状態確認
+kubectl get pods
+
+# ログの確認
+kubectl logs -l app=myapp
+
+# サービスの確認
+kubectl get services myapp-service
 ```
 
 ### 動作確認手順
