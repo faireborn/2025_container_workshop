@@ -25,7 +25,7 @@ kind create cluster --name workshop-2025
 
 ### クラスター設定
 ```bash
-kind get kubeconfig > kubeconfig.yaml
+kind get kubeconfig --name workshop-2025 > kubeconfig.yaml
 export KUBECONFIG=./kubeconfig.yaml:~/.kube/config
 kubectl cluster-info
 ```
