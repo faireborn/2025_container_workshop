@@ -251,6 +251,35 @@ spec:
     hosts:
       - jaeger.example.com
 ```
+# アクセス設定
+
+## Jaegerへのアクセス
+
+### 1. ポートフォワーディングの設定
+Jaeger UIにアクセスするために、以下のコマンドでポートフォワーディングを設定します：
+
+```bash
+# Jaeger UIへのアクセス
+kubectl port-forward svc/jaeger-query 16686:16686 -n monitoring
+```
+
+これにより、以下のURLからJaeger UIにアクセスできます：
+- http://localhost:16686
+
+### 2. 開発環境での確認方法
+Jaeger UIでは以下の機能を使用できます：
+
+- Search: トレースの検索と絞り込み
+  - Service: サービス名での絞り込み
+  - Operation: 操作名での絞り込み
+  - Tags: カスタムタグでの絞り込み
+  - Lookback: 時間範囲の指定
+- Timeline: トレースのタイムライン表示
+- DAG: 分散トレースの依存関係グラフ
+- Spans: 個別スパンの詳細表示
+
+#### 参考
+- [2022年版 OpenTelemetryを知れば世界が平和に](https://syu-m-5151.hatenablog.com/entry/2022/07/12/115434)
 
 ## 課題
 

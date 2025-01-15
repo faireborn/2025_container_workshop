@@ -212,6 +212,44 @@ spec:
         description: Container {{ $labels.container }} in pod {{ $labels.namespace }}/{{ $labels.pod }} is using more than 80% of its memory limit for the last 10 minutes
 ```
 
+### アクセスとポートフォワーディング
+
+1. まず、各サービスを確認します：
+```bash
+kubectl get svc -n monitoring
+```
+
+2. 各サービスに対してポートフォワーディングを設定します：
+
+Prometheus用:
+```bash
+kubectl port-forward -n monitoring svc/monitoring-kube-prometheus-prometheus 9090:9090
+```
+
+Grafana用:
+```bash
+kubectl port-forward -n monitoring svc/monitoring-grafana 3000:3000
+```
+
+Alertmanager用:
+```bash
+kubectl port-forward -n monitoring svc/monitoring-kube-prometheus-alertmanager 9093:9093
+```
+
+これで以下のURLからアクセスできます：
+- Prometheus: http://localhost:9090
+- Grafana: http://localhost:3000
+- Alertmanager: http://localhost:9093
+
+各サービスは別々のターミナルウィンドウでポートフォワーディングを実行する必要があります。また、アクセスしたいサービスのポートフォワーディングのみを設定すれば十分です。
+
+注意：
+- Grafanaの初期ログイン情報（デフォルト）：
+  - ユーザー名: admin
+  - パスワード: prom-operator
+- ポートフォワーディングは、実行したターミナルを閉じると終了します
+- 別のポート番号を使用したい場合は、コマンドの最初の数字を変更してください（例：`8080:9090`）
+
 ## 課題
 
 ### 1. メトリクスの収集
