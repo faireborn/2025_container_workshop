@@ -107,10 +107,6 @@ grafana:
   persistence:
     enabled: true
     size: 10Gi
-  admin:
-    existingSecret: grafana-admin-credentials
-    userKey: admin-user
-    passwordKey: admin-password
   dashboardProviders:
     dashboardproviders.yaml:
       apiVersion: 1
