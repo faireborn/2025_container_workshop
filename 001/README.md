@@ -379,6 +379,14 @@ curl http://localhost:8001/api/v1/namespaces/default/services/myapp-service/prox
 
 4. 別のアクセス方法については、[Go開発者のための遊び場を用意する - KindとSkaffoldで始めるKubernetesの開発環境構築](https://syu-m-5151.hatenablog.com/entry/2024/06/21/135855) を参照してください。
 
+5. kubectl port-forward を使用したアクセス
+```bash
+kubectl port-forward service/myapp-service 8080:80
+```
+
+## 補足
+[Kubernetes IDEであるlens](https://k8slens.dev/) をinstall してください。これはk8s のGUI です。これを使うとPod の中身を確認することができます。
+
 ## 実践課題3: Helmチャートの作成
 
 ### 目的
